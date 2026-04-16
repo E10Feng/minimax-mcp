@@ -7,7 +7,7 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import TextContent, Tool
 
-MINIMAX_BASE_URL = "https://api.minimax.io"
+ANTHROPIC_BASE_URL = "https://api.minimax.io"
 
 app = Server("minimax-mcp")
 
@@ -30,7 +30,7 @@ def _run_minimax_subagent(task: str, context: str, api_key: str) -> str:
         prompt = task
 
     env = os.environ.copy()
-    env["ANTHROPIC_BASE_URL"] = MINIMAX_BASE_URL
+    env["ANTHROPIC_BASE_URL"] = ANTHROPIC_BASE_URL
     env["ANTHROPIC_API_KEY"] = api_key
 
     try:
