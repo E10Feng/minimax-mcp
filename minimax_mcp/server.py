@@ -7,7 +7,7 @@ from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import TextContent, Tool
 
-ANTHROPIC_BASE_URL = "https://api.minimax.io"
+ANTHROPIC_BASE_URL = "https://api.minimax.io/anthropic"
 SUBPROCESS_TIMEOUT_SECONDS = 300
 
 app = Server("minimax-mcp")

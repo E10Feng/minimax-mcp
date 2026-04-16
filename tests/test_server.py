@@ -19,7 +19,7 @@ def test_run_minimax_subagent_returns_output():
     assert "hello" in result
     assert mock_run.called
     call_env = mock_run.call_args.kwargs["env"]
-    assert call_env["ANTHROPIC_BASE_URL"] == "https://api.minimax.io"
+    assert call_env["ANTHROPIC_BASE_URL"] == "https://api.minimax.io/anthropic"
     assert call_env["ANTHROPIC_API_KEY"] == "test-api-key"
 
 
