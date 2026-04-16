@@ -35,8 +35,11 @@ def _run_minimax_subagent(task: str, context: str, api_key: str) -> str:
     env["ANTHROPIC_API_KEY"] = api_key
 
     try:
+        model = os.environ.get("MINIMAX_MODEL", "claude-3-5-sonnet-20241022")
+        cmd = ["claude", "-p", prompt, "--output-format", "json", "--model", model]
+
         result = subprocess.run(
-            ["claude", "-p", prompt, "--output-format", "json"],
+            cmd,
             env=env,
             stdin=subprocess.DEVNULL,
             capture_output=True,
