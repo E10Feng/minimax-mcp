@@ -1,0 +1,15 @@
+[project]
+name = "minimax-mcp"
+version = "0.1.0"
+description = "MCP server that delegates code implementation to Minimax via Claude Code subprocess"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0",
+]
+
+[project.scripts]
+minimax-mcp = "minimax_mcp.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
