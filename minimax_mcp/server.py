@@ -38,6 +38,7 @@ def _run_minimax_subagent(task: str, context: str, api_key: str) -> str:
         result = subprocess.run(
             ["claude", "-p", prompt, "--output-format", "json"],
             env=env,
+            stdin=subprocess.DEVNULL,
             capture_output=True,
             text=True,
             timeout=SUBPROCESS_TIMEOUT_SECONDS,
