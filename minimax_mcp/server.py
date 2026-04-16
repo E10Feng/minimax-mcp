@@ -8,6 +8,7 @@ from mcp.server.stdio import stdio_server
 from mcp.types import TextContent, Tool
 
 ANTHROPIC_BASE_URL = "https://api.minimax.io"
+SUBPROCESS_TIMEOUT_SECONDS = 300
 
 app = Server("minimax-mcp")
 
@@ -39,7 +40,7 @@ def _run_minimax_subagent(task: str, context: str, api_key: str) -> str:
             env=env,
             capture_output=True,
             text=True,
-            timeout=300,
+            timeout=SUBPROCESS_TIMEOUT_SECONDS,
         )
 
         if result.returncode != 0:
@@ -53,7 +54,10 @@ def _run_minimax_subagent(task: str, context: str, api_key: str) -> str:
             return result.stdout
 
     except subprocess.TimeoutExpired:
-        return "Minimax subagent timed out after 5 minutes. Try breaking the task into smaller pieces."
+        return (
+            f"Minimax subagent timed out after {SUBPROCESS_TIMEOUT_SECONDS // 60} minutes. "
+            "Try breaking the task into smaller pieces."
+        )
     except FileNotFoundError:
         return (
             "Error: `claude` CLI not found. "
@@ -98,7 +102,10 @@ async def call_tool(name: str, arguments: dict) -> list[TextContent]:
     task = arguments["task"]
     context = arguments.get("context", "")
 
-    output = _run_minimax_subagent(task, context, api_key)
+    loop = asyncio.get_event_loop()
+    output = await loop.run_in_executor(
+        None, _run_minimax_subagent, task, context, api_key
+    )
     return [TextContent(type="text", text=output)]
 
 
